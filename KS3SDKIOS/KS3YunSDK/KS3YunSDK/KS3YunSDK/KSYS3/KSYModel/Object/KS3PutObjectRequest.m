@@ -27,16 +27,8 @@
         self.acl = acl;
         self.arrGrantAcl = arrGrantAcl;
         self.kSYResource =  [NSString stringWithFormat:@"/%@", self.bucket];
-        
-        KS3Client * ks3Client = [KS3Client initialize];
-        NSString * customBucketDomain = [ks3Client getCustomBucketDomain];
-        
-        if ( customBucketDomain!= nil) {
-            self.host = [NSString stringWithFormat:@"%@://%@", [[KS3Client initialize] requestProtocol], customBucketDomain];
-        }else{
-           self.host = [NSString stringWithFormat:@"%@://%@.%@", [[KS3Client initialize] requestProtocol], self.bucket,[ks3Client getBucketDomain]]; // **** 线上版本，无callback
-        }
-//        self.host = [NSString stringWithFormat:@"http://115.231.96.27:8080/%@", bucketName]; // **** 线上测试callback
+
+        self.host = [[KS3Client initialize] getBaseHost:self.bucket];
         
         if (_acl != nil) {
             self.kSYHeader = [@"x-kss-acl:" stringByAppendingString:_acl.accessACL];

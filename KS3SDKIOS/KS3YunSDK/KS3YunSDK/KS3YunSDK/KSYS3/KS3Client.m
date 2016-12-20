@@ -150,6 +150,14 @@ static NSTimeInterval const KingSoftYun_RequestTimeout = 600; // in seconds
     _customBucketDomain = domainRegion;
 }
 
+- (NSString *) getBaseHost:(NSString *)bucketName {
+    if (_customBucketDomain != nil) {
+        return [NSString stringWithFormat:@"%@://%@", [[KS3Client initialize] requestProtocol], _customBucketDomain];
+    } else {
+        return [NSString stringWithFormat:@"%@://%@.%@", [[KS3Client initialize] requestProtocol], bucketName, _customBucketDomain];
+    }
+}
+
 #pragma mark - Buckets
 
 - (NSArray *)listBuckets:(KS3ListBucketsRequest *)listBucketsRequest

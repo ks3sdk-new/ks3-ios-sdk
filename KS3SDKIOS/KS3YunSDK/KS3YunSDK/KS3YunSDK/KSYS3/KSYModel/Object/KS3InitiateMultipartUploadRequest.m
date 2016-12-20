@@ -94,15 +94,7 @@
 
 -(NSMutableURLRequest *)configureURLRequest
 {
-    KS3Client * ks3Client = [KS3Client initialize];
-    NSString * customBucketDomain = [ks3Client getCustomBucketDomain];
-    
-    if ( customBucketDomain!= nil) {
-         self.host = [NSString stringWithFormat:@"%@://%@/%@?uploads", [[KS3Client initialize] requestProtocol], customBucketDomain, self.key];
-    }else{
-        self.host = [NSString stringWithFormat:@"%@://%@.%@/%@?uploads", [[KS3Client initialize] requestProtocol], self.bucket,[ks3Client getBucketDomain], self.key];
-
-    }
+    self.host = [NSString stringWithFormat:@"%@/%@?uploads", [[KS3Client initialize] getBaseHost:self.bucket], self.key];
 
     if (_acl != nil) {
         [self.urlRequest setValue:_acl.accessACL forHTTPHeaderField:@"x-kss-acl"];

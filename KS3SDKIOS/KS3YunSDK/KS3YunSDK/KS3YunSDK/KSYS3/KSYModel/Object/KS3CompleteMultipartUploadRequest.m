@@ -56,16 +56,9 @@
     }
     
     [self setKSYResource:[NSString stringWithFormat:@"%@/%@?%@=%@", self.kSYResource,_key, kKS3QueryParamUploadId, self.uploadId]];
-    
-    KS3Client * ks3Client = [KS3Client initialize];
-    NSString * customBucketDomain = [ks3Client getCustomBucketDomain];
-    if ( customBucketDomain!= nil) {
-        self.host = [NSString stringWithFormat:@"%@://%@/%@?uploadId=%@", [[KS3Client initialize] requestProtocol], customBucketDomain, self.key,self.uploadId];
-    }else{
-       self.host = [NSString stringWithFormat:@"%@://%@.%@/%@?uploadId=%@", [[KS3Client initialize] requestProtocol], self.bucket,[ks3Client getBucketDomain], self.key, self.uploadId];
-        
-    }
-    
+
+
+    self.host = [NSString stringWithFormat:@"%@/%@?uploadId=%@", [[KS3Client initialize] getBaseHost:self.bucket], self.key, self.uploadId];
     
     if (![self.kSYHeader isEqualToString:@""]) {
         

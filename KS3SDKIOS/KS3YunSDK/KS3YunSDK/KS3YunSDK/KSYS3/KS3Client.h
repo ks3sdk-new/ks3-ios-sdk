@@ -128,6 +128,13 @@ typedef enum
 - (NSString *)getBucketDomain;
 
 /**
+ *  自动兼容用户自定义域名
+ *  兼容规则：如果用户设置了 customDomain ，则忽略bucketName
+ *          否则使用 bucketName.regionDomain 的形式拼接
+ */
+- (NSString *) getBaseHost:(NSString *)bucketName;
+
+/**
  *  获取用户自定义的域名
  *  如果没有设置，返回nil
  */
